@@ -30,7 +30,7 @@ def intToTime(num):
 
 data = {}
 
-for i in range(19):
+for i in range(39):
     f = open(f'./data/framedataBatch{i}')
     update = json.load(f)
     data = {**data, **update}
@@ -39,9 +39,9 @@ for i in range(19):
 x = [int(k) for k in data.keys()]
 y = [v for v in data.values()]
 
-labels = [intToTime(i) for i in range(1901)]
+labels = [intToTime(i) for i in range(3831)]
 
-plt.figure(figsize=(10, 6))  
+plt.figure(figsize=(15, 10))  
 plt.plot(x, y)  
 plt.xticks(x[::100], labels[::100], rotation=45)
 
