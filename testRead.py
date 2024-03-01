@@ -8,36 +8,33 @@ def midMask(points):
     avg_x = np.mean(points[:, 0, 0])
     avg_y = np.mean(points[:, 0, 1])
 
-    # The middle point based on the mean of x and y coordinates
+    # middle point based on the mean of x and y coordinates
     return int(avg_x), int(avg_y)
 
 def find_sky(image, grid_rows, grid_cols):
-    # Define the sky blue color range in HSV
     lower_blue = np.array([20, 110, 145])
     upper_blue = np.array([135, 206, 235])
 
     lower_white = np.array([192, 192, 192])
     upper_white = np.array([255, 255, 255])
 
-    # Initialize the array to store coordinates
     coordinates = []
     
-    # Image dimensions
     img_height, img_width, _ = image.shape
     
-    # Size of each bounding box
+    # size of each bounding box
     box_height = img_height // grid_rows
     box_width = img_width // grid_cols
     
     labels = []
     for row in range(grid_rows):
         for col in range(grid_cols):
-            # Define the bounding box
+            # bounding box
             start_row, start_col = row * box_height, col * box_width
             end_row, end_col = start_row + box_height, start_col + box_width
             bounding_box = image[start_row:end_row, start_col:end_col]
             
-            # Find blue points within the bounding box
+            # blue points within the bounding box
             mask = cv2.inRange(bounding_box, lower_blue, upper_blue)
             points = cv2.findNonZero(mask)
             
@@ -53,7 +50,6 @@ def find_sky(image, grid_rows, grid_cols):
             points = cv2.findNonZero(mask)
             
             if points is not None:
-                # Adjust coordinates to match the position in the original image
                 x, y = midMask(points)
                 adjusted_point = (x + start_col, y + start_row)
                 coordinates.append(adjusted_point)
